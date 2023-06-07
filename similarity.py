@@ -9,14 +9,10 @@ def compare_betweenness_centrality(original_graph, optimized_graph, removed_node
     """Setting the size to the size of the orginal graph"""
     # The second graph is the reduced graph
     reduced_graph = optimized_graph
-    print(len(reduced_graph))
     # Calculate betweenness centrality for the first graph
-    betweenness_centrality_original_graph = nx.betweenness_centrality(
-        original_graph)
+    betweenness_centrality_original_graph = nx.betweenness_centrality(original_graph)
     # Calculate betweenness centrality for the second graph
-    betweenness_centrality_reduced_graph = nx.betweenness_centrality(
-        reduced_graph)
-    print(betweenness_centrality_reduced_graph)
+    betweenness_centrality_reduced_graph = nx.betweenness_centrality(reduced_graph)
     # Calculate the average absolute difference between centrality values
     differences = []
     for node in original_graph.nodes():
@@ -39,19 +35,10 @@ def compare_betweenness_centrality(original_graph, optimized_graph, removed_node
 def calculate_degree_sequence(original_graph, optimized_graph):
     # Find the degree sequence
     """Finding the degree sequence of the Original Graph"""
-    degree_sequence_original = [degree for node,
-                                degree in original_graph.degree()]
-
-    # Print the degree sequence
-    print("Degree sequence:", degree_sequence_original)
-
+    degree_sequence_original = [degree for node, degree in original_graph.degree()]
     # Find the degree sequence
     """Finding the degree sequence of the Reduced Graph"""
-    degree_sequence_reduced = [degree for node,
-                               degree in optimized_graph.degree()]
-
-    # Print the degree sequence
-    print("Degree sequence:", degree_sequence_reduced)
+    degree_sequence_reduced = [degree for node, degree in optimized_graph.degree()]
     return degree_sequence_original, degree_sequence_reduced
 
 
@@ -82,17 +69,13 @@ def compare_degree_distributions(original_graph, optimized_graph):
         original_graph, optimized_graph)
     size = len(original_graph)
     """Get the degree distribution for the degree sequence of the origianl graph"""
-    degree_distribution_original = calculate_degree_distribution(
-        degree_sequence_original, size)
+    degree_distribution_original = calculate_degree_distribution(degree_sequence_original, size)
     """Get the degree distribution for the degree sequence of the reduced graph"""
-    degree_distribution_reduced = calculate_degree_distribution(
-        degree_sequence_reduced, size)
+    degree_distribution_reduced = calculate_degree_distribution(degree_sequence_reduced, size)
     # Calculate Euclidean distance
-    euclidean_distance = np.linalg.norm(
-        degree_distribution_original - degree_distribution_reduced)
+    euclidean_distance = np.linalg.norm(degree_distribution_original - degree_distribution_reduced)
     # Calculate maximum possible distance
-    max_distance = np.linalg.norm(np.ones_like(
-        degree_distribution_original) - np.zeros_like(degree_distribution_reduced))
+    max_distance = np.linalg.norm(np.ones_like(degree_distribution_original) - np.zeros_like(degree_distribution_reduced))
     # Normalize Euclidean distance to obtain similarity score
     similarity_score = 1 - (euclidean_distance / max_distance)
     return round(similarity_score*100, 2)
@@ -124,17 +107,8 @@ not depends on its utility and relevance to the particular analysis or problem a
 
 def compare_clustering_coefficient(original_graph, optimized_graph):
     original_clustering_coefficient = nx.average_clustering(original_graph)
-
-    print("Clustering Coefficient of Original Graph:",
-          original_clustering_coefficient)
-
     reduced_clustering_coefficient = nx.average_clustering(optimized_graph)
-
-    print("Clustering Coefficient of Reduced Graph:",
-          reduced_clustering_coefficient)
-
-    similarity_clustering_coefficient = reduced_clustering_coefficient / \
-        original_clustering_coefficient
+    similarity_clustering_coefficient = reduced_clustering_coefficient / original_clustering_coefficient
     return round(similarity_clustering_coefficient*100, 2)
 
 
@@ -146,18 +120,14 @@ def compare_eigen_vector_centrality(original_graph, optimized_graph):
     common_nodes = set(eigenvector_centrality_original.keys()).intersection(
         eigenvector_centrality_reduced.keys())
     # Extract the centralities for the common nodes
-    eigenvector_centrality_original = np.array(
-        [eigenvector_centrality_original[node] for node in common_nodes])
-    eigenvector_centrality_reduced = np.array(
-        [eigenvector_centrality_reduced[node] for node in common_nodes])
+    eigenvector_centrality_original = np.array([eigenvector_centrality_original[node] for node in common_nodes])
+    eigenvector_centrality_reduced = np.array([eigenvector_centrality_reduced[node] for node in common_nodes])
     # Normalize the centralities by dividing by the maximum centrality value
-    max_centrality = max(np.max(eigenvector_centrality_original),
-                         np.max(eigenvector_centrality_reduced))
+    max_centrality = max(np.max(eigenvector_centrality_original),np.max(eigenvector_centrality_reduced))
     normalized_centrality_original = eigenvector_centrality_original / max_centrality
     normalized_centrality_reduced = eigenvector_centrality_reduced / max_centrality
     # Calculate the Mean Squared Error (MSE)
-    mse = np.mean((normalized_centrality_original -
-                  normalized_centrality_reduced) ** 2)
+    mse = np.mean((normalized_centrality_original -normalized_centrality_reduced) ** 2)
     # Convert the MSE to a percentage scale
     similarity_percentage = 100 * (1 - mse)
     return round(similarity_percentage, 2)
@@ -187,8 +157,7 @@ def compare_average_path_length(original_graph, optimized_graph):
     average_path_length_reduced = average_path_length(optimized_graph)
 
     # Print the average path length
-    similarity_avg_path_length = round(1-abs(average_path_length_reduced-average_path_length_original)/max(
-        average_path_length_original, average_path_length_reduced), 2)*100
+    similarity_avg_path_length = round(1-abs(average_path_length_reduced-average_path_length_original)/max(average_path_length_original, average_path_length_reduced), 2)*100
     return similarity_avg_path_length
 
 
