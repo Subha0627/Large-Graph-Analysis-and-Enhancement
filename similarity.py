@@ -150,13 +150,18 @@ def calculate_jaccard_similarity(graph1, graph2):
         num_pairs / (graph1.number_of_nodes() * (graph1.number_of_nodes() - 1) / 2)) * 100
     return round(similarity_percentage, 2)
 
+
+"""
+Finding Similarity between two graphs with respect to the Preferential Attachment
+"""
 def preferential_attachment(graph1, graph2):
     preferential_scores = []
     for u, v in itertools.combinations(graph1.nodes(), 2):
         if not graph2.has_edge(u, v):
             score = graph1.degree(u) * graph1.degree(v)
             preferential_scores.append((u, v, score))
-    # Calculate the similarity as a percentage
+
+    # Compute the preferential attachment score
     total_possible_scores = sum(graph1.degree(u) * graph1.degree(v) for u, v in itertools.combinations(graph1.nodes(), 2))
     preferential_attachment_score = (sum(score for _, _, score in preferential_scores) / total_possible_scores) * 100
     return round(preferential_attachment_score,2)
