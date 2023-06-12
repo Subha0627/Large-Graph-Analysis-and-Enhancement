@@ -1,8 +1,9 @@
 import networkx as nx
 import numpy as np
 import itertools
-"""Finding Similarity between two graphs with respect to the betweenness centrality"""
-
+"""
+Finding Similarity between two graphs with respect to the betweenness centrality
+"""
 def compare_betweenness_centrality(original_graph, reduced_graph, removed_nodes):
     # Calculate betweenness centrality for the first graph
     betweenness_centrality_original_graph = nx.betweenness_centrality(original_graph)
@@ -74,35 +75,6 @@ def compare_degree_distributions(original_graph, reduced_graph):
     # Normalize Euclidean distance to obtain similarity score
     similarity_score = 1 - (euclidean_distance / max_distance)
     return round(similarity_score*100, 2)
-
-
-"""
-The clustering coefficient is a measure of how interconnected the nodes in a graph are. A higher clustering coefficient 
-indicates a higher level of clustering or connectivity between the neighbors of a node.In our case, the original graph has a
-clustering coefficient of 0.57, while the reduced graph has a clustering coefficient of 0.17. This implies that the original
-graph has a higher level of local clustering compared to the reduced graph.The reduction in the clustering coefficient could be due
-to the removal of certain edges or nodes in the reduced graph. When edges or nodes are removed, it can disrupt the local 
-connectivity and decrease the clustering coefficient. A lower clustering coefficient in the reduced graph suggests that the nodes 
-in the graph are less interconnected, and there may be fewer clusters or communities present compared to the original graph. This 
-reduction in clustering could indicate a loss of local structure or a more dispersed network configuration. Overall, the difference in
-clustering coefficients between the original and reduced graphs can provide insights into the structural changes and the level of 
-clustering in the network. It can be used to study the impact of network modifications or analyze the resilience and robustness of
-the graph's connectivity. The characterization of the reduced graph as "bad" or not depends on the specific context and goals of your 
-analysis. The reduced graph may not necessarily be considered "bad," but rather different or simplified compared to the original graph.
-Reducing a graph can be done for various reasons, such as improving computational efficiency, removing noise or outliers, or focusing
-on specific aspects of the network. It may help in identifying the core structure or essential relationships within the graph.However, it's 
-important to consider the implications of the reduction. Removing nodes or edges can result in a loss of information and potentially 
-alter the characteristics of the graph. If the reduced graph still captures the essential properties or patterns you are interested in,
-it can be considered a useful simplification. It's crucial to evaluate the reduced graph in relation to your specific analysis objectives. 
-If the reduction significantly impacts the interpretation or understanding of the network, you may need to reassess the approach or consider
-alternative methods to retain more of the original graph's structure. Ultimately, whether the reduced graph is considered "bad" or 
-not depends on its utility and relevance to the particular analysis or problem at hand.
-"""
-def compare_clustering_coefficient(original_graph, reduced_graph):
-    original_clustering_coefficient = nx.average_clustering(original_graph)
-    reduced_clustering_coefficient = nx.average_clustering(reduced_graph)
-    similarity_clustering_coefficient = 1-abs(original_clustering_coefficient-reduced_clustering_coefficient)/max(original_clustering_coefficient, reduced_clustering_coefficient)
-    return round(similarity_clustering_coefficient*100, 2)
 
 # Calculate eigenvector centralities
 def compare_eigen_vector_centrality(original_graph, reduced_graph):
