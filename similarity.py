@@ -150,24 +150,13 @@ def calculate_jaccard_similarity(graph1, graph2):
         num_pairs / (graph1.number_of_nodes() * (graph1.number_of_nodes() - 1) / 2)) * 100
     return round(similarity_percentage, 2)
 
-def calculate_adamic_adar_similarity(graph1, graph2):
-    adamic_adar_scores = []
-    for u, v in itertools.combinations(graph1.nodes(), 2):
-        if not graph2.has_edge(u, v):
-            common_neighbors = set(graph1.neighbors(u)).intersection(graph1.neighbors(v))
-            score = sum(1 / graph1.degree(w) for w in common_neighbors)
-            similarity_percentage = (score / max(graph1.degree(u), graph1.degree(v))) * 100
-            adamic_adar_scores.append((u, v, similarity_percentage))
-    return adamic_adar_scores
-
 def preferential_attachment(graph1, graph2):
     preferential_scores = []
     for u, v in itertools.combinations(graph1.nodes(), 2):
         if not graph2.has_edge(u, v):
             score = graph1.degree(u) * graph1.degree(v)
             preferential_scores.append((u, v, score))
-
+    # Calculate the similarity as a percentage
     total_possible_scores = sum(graph1.degree(u) * graph1.degree(v) for u, v in itertools.combinations(graph1.nodes(), 2))
     preferential_attachment_score = (sum(score for _, _, score in preferential_scores) / total_possible_scores) * 100
-
     return round(preferential_attachment_score,2)
