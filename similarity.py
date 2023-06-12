@@ -150,7 +150,6 @@ def calculate_jaccard_similarity(graph1, graph2):
         num_pairs / (graph1.number_of_nodes() * (graph1.number_of_nodes() - 1) / 2)) * 100
     return round(similarity_percentage, 2)
 
-
 """
 Finding Similarity between two graphs with respect to the Preferential Attachment
 """
