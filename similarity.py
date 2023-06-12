@@ -39,7 +39,7 @@ def calculate_degree_sequence(original_graph, reduced_graph):
 
 
 """
-Calculate Degree Distribution from a given degree and number of nodes
+Calculate Degree Distribution from a given degree sequence and number of nodes
 """
 def calculate_degree_distribution(degree_sequence, size):
     # Initialize an array to store the degree distribution
@@ -58,7 +58,7 @@ def calculate_degree_distribution(degree_sequence, size):
 
 
 """
-Two degree distributions 'array1' and 'array2' are compared and the similarity score is returned
+Compare the degree distributions of an original graph and a reduced graph and return the similarity score.
 """
 def compare_degree_distributions(original_graph, reduced_graph):
     degree_sequence_original, degree_sequence_reduced = calculate_degree_sequence(
@@ -76,7 +76,9 @@ def compare_degree_distributions(original_graph, reduced_graph):
     similarity_score = 1 - (euclidean_distance / max_distance)
     return round(similarity_score*100, 2)
 
-# Calculate eigenvector centralities
+"""
+Finding similarity between two graphs with respect to the Eigenvector centralities
+"""
 def compare_eigen_vector_centrality(original_graph, reduced_graph):
     eigenvector_centrality_original = nx.eigenvector_centrality(original_graph)
     eigenvector_centrality_reduced = nx.eigenvector_centrality(reduced_graph)
@@ -96,23 +98,32 @@ def compare_eigen_vector_centrality(original_graph, reduced_graph):
     similarity_percentage = 100 * (1 - mse)
     return round(similarity_percentage, 2)
 
+"""
+Calculate the average path length of a graph
+"""
 def average_path_length(graph):
     total_length = 0
     num_pairs = 0
+    # Iterate over all nodes as source and target pairs
     for source in graph.nodes():
         for target in graph.nodes():
             if source != target:
                 try:
+                    # Calculate the shortest path length between the source and target nodes
                     length = nx.shortest_path_length(graph, source, target)
                     total_length += length
                     num_pairs += 1
                 except nx.NetworkXNoPath:
                     continue
+    # Calculate the average path length if there are pairs of nodes
     if num_pairs > 0:
         return total_length / num_pairs
     else:
         return 0
 
+"""
+Finding Similarity between two graphs with respect to the Average Path Length
+"""
 def compare_average_path_length(original_graph, reduced_graph):
     # Calculate the average path length
     average_path_length_original = average_path_length(original_graph)
@@ -123,14 +134,7 @@ def compare_average_path_length(original_graph, reduced_graph):
     return similarity_avg_path_length
 
 """
-The formula `(graph1.number_of_nodes() * (graph1.number_of_nodes() - 1) / 2)` calculates the total number of possible pairs of nodes in `graph1`
-excluding self-loops. When computing the Jaccard similarity, we are interested in comparing pairs of nodes that do not have an edge between
-them in `graph2`. To calculate the similarity as a percentage, we need to divide the number of such pairs with non-zero Jaccard similarity by 
-the total number of possible pairs.The total number of possible pairs of nodes in `graph1` excluding self-loops can be calculated as
-`(graph1.number_of_nodes() * (graph1.number_of_nodes() - 1) / 2)`. We divide `num_pairs` (the number of pairs with non-zero Jaccard similarity)
-by this total number of possible pairs, and then multiply by 100 to express the result as a percentage. This gives us the similarity percentage.
-By using this formula, we can obtain a normalized measure of similarity between the graphs that accounts for the total possible pairs 
-of nodes in `graph1`.
+Finding Similarity between two graphs with respect to the Jaccard Similarity
 """
 def calculate_jaccard_similarity(graph1, graph2):
     jaccard_scores = []
